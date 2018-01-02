@@ -1,0 +1,126 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <script src="js/socket.io/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <!-- Socket.io Handler -->
+        <script>
+          $(function () {
+            var socket = io();
+            $('#form').submit(function(){
+              socket.emit('message', $('#dataValue').val());
+              //socket.emit('message', $('input[name="units"]:checked').val() + ',' + $('#dataValue').val());
+              return false;
+            });
+            socket.on('resData', function(msg){
+              $('#messages').append($('<li>').text(msg));
+            });
+            socket.on('channelList', function(data){
+              $('#messages').empty();
+              data.channels.forEach(function(x) {
+                $('#messages').append($('<input type="checkbox" name="channelSel" /><label>' + x + '</label><br>'))
+              });
+            });
+          });
+        </script>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    </head>
+    <body>
+    <style>
+#grad {
+  height: 2600px;
+  background: black; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, red, yellow); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, red, yellow); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, red, yellow); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, black, grey); /* Standard syntax (must be last) */
+}
+</style>
+
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div id="grad">
+        <div class="col">
+          <div class="span12">
+        <div class="card">
+          <div class="card-block">
+            <div class="card-header">
+            <h4 class="card-title">ThemoPi Aquision</h4>
+          </div>
+        <form id = "form" action="">
+          <div class="container">
+            <div class="input-group input-group-lg">
+              <div class="row">
+                    <h1 class="text-center">ThermoPi Interface</h1>
+                  </div>
+
+                  <br>
+                  <div class="row">
+                    <label><input type="radio" name="units" id=rb2 value="samples" checked aria-label="Checkbox for following text input">Samples</label>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <label><input type="radio" id=rb1 name="units" value="time" aria-label="Checkbox for following text input">Time</label>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <input id=dataValue type="text" class="form-control" placeholder="Samples" aria-label="Username" aria-describedby="basic-addon1">
+                  </div>
+                  <br>
+                  <div class="row">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+                </div>
+        </form>
+      </div>
+      </div>
+    </div>
+  </div>
+
+        <br>
+        <div class="card">
+          <div class="card-block">
+            <div class="card-header">
+            <h4 class="card-title">ThermoPi Channels</h4>
+          </div>
+            <p class="card-text"><ul id="messages"></ul></p>
+          </div>
+        </div>
+  </div>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+        </script>
+    </body>
+</html>
